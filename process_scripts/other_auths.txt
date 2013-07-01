@@ -1,0 +1,16 @@
+/home/finlay/Code/PerseusSource/Classics/Callimachus/opensource/call_02.xml
+/home/finlay/Code/PerseusSource/Classics/Callimachus/opensource/callimachus.xml
+/home/finlay/Code/PerseusSource/Classics/Callimachus/opensource/call_03.xml
+/home/finlay/Code/PerseusSource/Classics/Quintus/opensource/quintsmyrn_01.xml
+/home/finlay/Code/PerseusSource/Classics/Lycophron/opensource/lycophron_01.xml
+/home/finlay/Code/PerseusSource/Classics/Oppian/opensource/oppian_02.xml
+/home/finlay/Code/PerseusSource/Classics/Oppian/opensource/oppian_01.xml
+/home/finlay/Code/PerseusSource/Classics/Elegy/opensource/1_gk.xml
+/home/finlay/Code/PerseusSource/Classics/Elegy/opensource/2_gk.xml
+/home/finlay/Code/PerseusSource/Classics/Elegy/opensource/2_eng.xml
+/home/finlay/Code/PerseusSource/Classics/Elegy/opensource/1_eng.xml
+/home/finlay/Code/PerseusSource/Classics/Tryphiodorus/opensource/tryphiodorus_01.xml
+/home/finlay/Code/PerseusSource/Classics/Nonnos/opensource/nonnos_01.xml
+/home/finlay/Code/PerseusSource/Classics/Nonnos/opensource/nonnos_02.xml
+/home/finlay/Code/PerseusSource/Classics/Nonnos/opensource/nonnos_03.xml
+/home/finlay/Code/PerseusSource/Classics/Aratus/opensource/aratus_01.xml

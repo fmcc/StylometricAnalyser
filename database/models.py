@@ -23,9 +23,10 @@ class Section(Base):
     number = Column(Integer)
     source_text = Column(Integer, ForeignKey('text.id'))
     content = Column(UnicodeText)
-    ngrams = (PickleType)
-    profile = (PickleType)
-    def __init__(self, source_text, content):
+    ngrams = Column(PickleType, nullable=True)
+    profile = Column(PickleType, nullable=True)
+    def __init__(self, source_text, number, content):
+        self.number = number
         self.content = content
         self.source_text = source_text
 

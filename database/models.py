@@ -29,4 +29,3 @@ class Section(Base):
         self.number = number
         self.content = content
         self.source_text = source_text
-

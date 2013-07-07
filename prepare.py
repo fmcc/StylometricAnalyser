@@ -26,5 +26,4 @@ def parse_perseus(xml_text, unit):
         single_spaced = re.sub('\s+',' ', item.text)
         unicode_passage = con.convert(single_spaced)[0]
         books.append(unicode_passage)
-
     return author, title, books

@@ -29,3 +29,10 @@ class Section(Base):
         self.number = number
         self.content = content
         self.source_text = source_text
+
+class VectorSpace(Base):
+    __tablename__ = 'vector_space'
+    id = Column(Integer, Sequence('vector_space_id_seq'), primary_key=True)
+    space = Column(PickleType, nullable=True)
+    def __init__(self, space):
+        self.space = space

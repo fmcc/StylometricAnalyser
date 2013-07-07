@@ -27,3 +27,13 @@ def parse_perseus(xml_text, unit):
         unicode_passage = con.convert(single_spaced)[0]
         books.append(unicode_passage)
     return author, title, books
+
+"""
+For texts I prepare myself
+"""
+def parse_xml(xml_text):
+    parsed_text = BS(xml_text, 'xml')
+    author = parsed_text.author.text
+    title = parsed_text.title.text
+    books = [item.text for item in parsed_text.find_all('section')]
+    return author, title, books

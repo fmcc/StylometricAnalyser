@@ -1,5 +1,6 @@
 from sqlalchemy import *
 from database import Base
+from database.utilities import order_sections
 
 class Author(Base):
     __tablename__ = 'author'
@@ -30,9 +31,28 @@ class Section(Base):
         self.content = content
         self.source_text = source_text
 
+class Comparison(Base):
+    __tablename__ = 'comparison'
+    id = Column(Integer, Sequence('comparison_id_seq'), primary_key=True)
+    text_one = Column(Integer, ForeignKey('section.id'))
+    text_two = Column(Integer, ForeignKey('section.id'))
+    cosine_similarity = Column(Float, nullable=True)
+    profile_length = Column(Integer, nullable=True)
+    def __init__(self, text_one, text_two):
+        self.text_one, self.text_two = order_sections(text_one, text_two)
+
 class VectorSpace(Base):
     __tablename__ = 'vector_space'
     id = Column(Integer, Sequence('vector_space_id_seq'), primary_key=True)
     space = Column(PickleType, nullable=True)
     def __init__(self, space):
         self.space = space
+
+class GlobalNgrams(Base):
+    __tablename__ = 'global_ngrams'
+    id = Column(Integer, Sequence('global_ngrams_id_seq'), primary_key=True)
+    global_ngram_counts = Column(PickleType, nullable=True)
+    top_ngram_counts = Column(PickleType, nullable=True)
+    def __init(self, global_ngram_counts, top_ngram_counts):
+        self.global_ngram_counts = global_ngram_counts
+        self.top_ngram_counts = top_ngram_counts

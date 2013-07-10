@@ -3,7 +3,7 @@ from database import Session
 from database.utilities import get_or_create
 from prepare import parse_perseus, parse_xml
 from generate import generate_ngrams
-from update import update_vector_space
+from update import update_vector_space, update_global_ngrams
 
 def load(file_path):
     if not file_path.endswith('xml'):
@@ -15,12 +15,14 @@ def load(file_path):
         author, title, sections = parse_perseus(open(file_path),'div1')
     session = Session()
     a = get_or_create(session, Author, name=author)
+    session.commit()
     t = get_or_create(session, Text, name=title, author=a.id)
     session.commit()
     section_count = 1
     for sec in sections:
         temp_section = get_or_create(session, Section, source_text=t.id, number=section_count, content=sec)
         temp_section.ngrams = generate_ngrams(temp_section.content)
-        update_vector_space(session, temp_section.ngrams)
+        #update_vector_space(session, temp_section.ngrams)
+        update_global_ngrams(session, temp_section.ngrams)
         section_count = section_count + 1
     session.commit()

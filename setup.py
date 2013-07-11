@@ -11,5 +11,6 @@ else:
     Base.metadata.create_all(engine)
     session = Session()
     get_or_create(session, VectorSpace, space=set())
-    get_or_create(session, GlobalNgrams, global_ngram_counts=Counter(),top_ngram_counts=[])
+    get_or_create(session, GlobalNgrams, counts=Counter())
+    get_or_create(session, GlobalVersion)
     session.commit()

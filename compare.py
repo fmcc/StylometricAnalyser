@@ -1,9 +1,10 @@
 import numpy
 import math
-from generate import generate_profile, generate_limited_profile
+from generate import generate_profile
 from database import *
 from database.models import *
-from database.utilities import get_or_create
+from database.utilities import get_or_create, order_sections
+from log import log
 from settings import RESTRICT_VECTOR_SPACE
 
 def cosine_distance(profile_one, profile_two):
@@ -12,45 +13,36 @@ def cosine_distance(profile_one, profile_two):
 def compare_texts(session, sec_one, sec_two):
     section_one, section_two = order_sections(sec_one.id, sec_two.id)
     comparison = get_or_create(session, Comparison, text_one=section_one,text_two=section_two)
-    if comparison.cosine_similarity:
-        print('Retrieving similarity')
+    version = session.query(GlobalVersion).first()
+    if comparison.version and  comparison.version == version.version:
+        log('Retrieving stored comparison.')
         return comparison.cosine_similarity
-    #vector = session.query(VectorSpace).first()
-    #if comparison.profile_length and comparison.profile_length == len(vector.space):
-    #    print('Using stored comparison')
-    #    return comparison.cosine_similarity
-    #profile_one = get_current_profile(session, vector, sec_one)
-    #profile_two = get_current_profile(session, vector, sec_two)
-    global_ngrams = session.query(GlobalNgrams).first()
-    top_ngrams = global_ngrams.top_ngram_counts
-    profile_one = get_current_limited_profile(session, top_ngrams, sec_one)
-    profile_two = get_current_limited_profile(session, top_ngrams, sec_two)
+    log('Generating comparison.')
+    vector_space = session.query(VectorSpace).first()
+    profile_one = get_current_profile(session, version.version, vector_space, section_one)
+    profile_two = get_current_profile(session, version.version, vector_space, section_two)
     comparison.cosine_similarity = cosine_distance(profile_one, profile_two)
-    comparison.profile_length = len(profile_one)
+    comparison.version = version.version
     session.commit()
     return comparison.cosine_similarity
 
-def get_current_profile(session, vector, section):
-    if section.profile: 
-        if(len(vector.space) != len(section.profile)):
-            print('Updating profile of ' + str(section.number))
-            section.profile = generate_profile(section.ngrams, vector.space)
-            session.commit()
-            return section.profile
-        else:
-            return section.profile
-    else:
-        print('Creating profile of ' + str(section.number))
-        section.profile = generate_profile(section.ngrams, vector.space)
-        session.commit()
-        return section.profile
+def get_current_profile(session, version, vector, sect):
+    profile = get_or_create(session, SectionProfile, section=sect)
 
-def get_current_limited_profile(session, top_ngrams, section):
-    if section.profile and len(section.profile) == RESTRICT_VECTOR_SPACE:
-        print('Retrieving profile of ' + str(section.number))
-        return section.profile
-    else:
-        print('Creating profile of ' + str(section.number))
-        section.profile = generate_limited_profile(section.ngrams, top_ngrams)
+    def get_profile():
+        ngrams = session.query(SectionNgrams).filter_by(section=sect).first()
+        profile.profile = generate_profile(ngrams.ngrams, vector.space)
+        profile.version = version
         session.commit()
-        return section.profile
+        return profile.profile
+
+    if profile.profile:
+        if profile.version == version:
+            log('Retrieving profile.')
+            return profile.profile
+        else:
+            log('Updating profile.')
+            return get_profile()
+    else:
+        log('Creating profile.')
+        return get_profile()

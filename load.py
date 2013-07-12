@@ -2,9 +2,10 @@ from database.models import Author, Text, Section, SectionContent, SectionNgrams
 from database import Session
 from log import log
 from database.utilities import get_or_create
-from prepare import parse_perseus, parse_xml
+from prepare import parse_perseus, parse_xml, create_chunks
 from generate import generate_ngrams
 from update import update_global_counts, update_vector_space
+from settings import USE_ORIGINAL_DIVISIONS, DIVISION_LENGTH
 
 def load(file_path):
     if not file_path.endswith('xml'):
@@ -22,6 +23,12 @@ def load(file_path):
     global_ngrams = session.query(GlobalNgrams).first()
     section_count = 1
     log('Loading: ' + t.name)
+    
+    if not USE_ORIGINAL_DIVISIONS:
+        sections = ' '.join(sections)
+        if DIVISION_LENGTH > 0:
+            sections = create_chunks(sections,DIVISION_LENGTH)
+
     for sec in sections:
         temp_section = get_or_create(session, Section, source_text=t.id, number=section_count)
         log('Loading section ' + str(section_count))

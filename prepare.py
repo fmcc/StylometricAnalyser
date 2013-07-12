@@ -37,3 +37,9 @@ def parse_xml(xml_text):
     title = parsed_text.title.text
     books = [item.text for item in parsed_text.find_all('section')]
     return author, title, books
+
+def create_chunks(text_in, chunk_size):
+    temp_words = text_in.split()
+    sections = [' '.join(temp_words[i:i+chunk_size]) for i in range(0, len(temp_words), chunk_size)]
+    return sections
+

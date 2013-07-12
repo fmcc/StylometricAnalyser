@@ -21,12 +21,13 @@ np_data = np.array(data)
 
 fig, ax = plt.subplots()
 fig.set_size_inches(20,20)
-heatmap = ax.pcolor(np_data, cmap=plt.cm.autumn)
+heatmap = ax.pcolor(np_data, cmap=plt.cm.binary)
 
 # want a more natural, table-like display
 ax.invert_yaxis()
 ax.xaxis.tick_top()
-
+ax.set_yticks(np.arange(np_data.shape[0])+0.5, minor=False)
+ax.set_xticks(np.arange(np_data.shape[1])+0.5, minor=False)
 ax.set_xticklabels(row_labels, minor=False, size='x-small')
 ax.set_yticklabels(column_labels, minor=False)
 plt.xticks(rotation=90)

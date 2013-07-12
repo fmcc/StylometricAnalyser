@@ -5,11 +5,11 @@ DB_PATH = os.getcwd() + '/database/greek_texts.db'
 LOGGING = True
 DB_LOGGING = False
 
-NGRAM_WORDS = True
+NGRAM_WORDS = False
 
 NGRAM_LENGTHS = {
-        'MIN': 2, 
-        'MAX': 6
+        'MIN': 3, 
+        'MAX': 8
         }
 
 RESTRICT_VECTOR_SPACE = 1000

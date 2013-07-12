@@ -15,7 +15,7 @@ def update_vector_space(session, global_ngrams):
     session.commit()
     if RESTRICT_VECTOR_SPACE:
         log('Updating restricted vector space: Length = ' + str(RESTRICT_VECTOR_SPACE))
-        vector_space.space = set(global_ngrams.counts.most_common(RESTRICT_VECTOR_SPACE))
+        vector_space.space = set([item[0] for item in global_ngrams.counts.most_common(RESTRICT_VECTOR_SPACE)])
         session.commit()
         return
     all_ngrams = global_ngrams.counts.keys()

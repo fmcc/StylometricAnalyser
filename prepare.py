@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as BS
 from BetacodeConvertor.BetacodeConvertor import *
 import re
+from settings import NO_SPACES
 
 """
 This function will take in a Perseus XML text and output a list of the text of the chapters
@@ -39,7 +40,13 @@ def parse_xml(xml_text):
     return author, title, books
 
 def create_chunks(text_in, chunk_size):
-    temp_words = text_in.split()
-    sections = [' '.join(temp_words[i:i+chunk_size]) for i in range(0, len(temp_words), chunk_size)]
-    return sections
+    if NO_SPACES:
+        chunks = [text_in[i:i+chunk_size] for i in range(0, len(text_in), chunk_size)]
+    else:
+        temp_words = text_in.split()
+        chunks = [' '.join(temp_words[i:i+chunk_size]) for i in range(0, len(temp_words), chunk_size)]
+    return chunks
+
+def remove_spaces(text_in):
+    return re.sub(' ','', text_in)
 

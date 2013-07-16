@@ -3,6 +3,9 @@ import numpy as np
 from database import *
 from database.models import *
 from compare import *
+import sys
+
+output_name = sys.argv[1]
 
 session = Session()
 text_one_sections = session.query(Section,Text,Author).join(Text).join(Author)
@@ -32,4 +35,4 @@ ax.set_xticklabels(row_labels, minor=False, size='x-small')
 ax.set_yticklabels(column_labels, minor=False)
 plt.xticks(rotation=90)
 ax.grid(False)
-plt.savefig('test.pdf')
+plt.savefig(output_name)

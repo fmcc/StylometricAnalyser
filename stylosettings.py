@@ -9,13 +9,13 @@ DB_LOGGING = False
 NGRAM_WORDS = False
 
 NGRAM_LENGTHS = {
-        'MIN': 4, 
-        'MAX': 10
+        'MIN': 7, 
+        'MAX': 8
 }
 
 NO_SPACES = True
 
-RESTRICT_VECTOR_SPACE = 200
+RESTRICT_VECTOR_SPACE = 0
 
 # If selected, texts will be divided according to their original top-level divisions (Books etc. 'div1' in Perseus's TEI XML
 USE_ORIGINAL_DIVISIONS = True 

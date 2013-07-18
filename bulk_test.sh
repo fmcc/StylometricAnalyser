@@ -10,4 +10,6 @@ for i in $( ls ./test_settings ) ; do
     out_file=$(echo $i | sed -e "s/\.py//g")
     echo $out_file
     python dump_comparisons.py ./test_results/$out_file.csv
+    echo 'Ctrl+c now to exit script.'
+    sleep 10s
 done

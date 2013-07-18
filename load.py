@@ -25,9 +25,9 @@ def load(file_path):
     log('Loading: ' + t.name)
     
     if not USE_ORIGINAL_DIVISIONS:
-        sections = ' '.join(sections)
-        if DIVISION_LENGTH > 0:
-            sections = create_chunks(sections,DIVISION_LENGTH)
+        sections = [' '.join(sections)]
+        if DIVISION_LENGTH:
+            sections = create_chunks(sections[0],DIVISION_LENGTH)
 
     for sec in sections:
         temp_section = get_or_create(session, Section, source_text=t.id, number=section_count)

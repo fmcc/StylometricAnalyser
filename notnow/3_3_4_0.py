@@ -10,7 +10,7 @@ NGRAM_WORDS = False
 
 NGRAM_LENGTHS = {
         'MIN': 3, 
-        'MAX': 7
+        'MAX': 4
 }
 
 NO_SPACES = False

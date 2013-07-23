@@ -16,7 +16,7 @@ output_two = """,
 output_three = """
 }
 
-NO_SPACES = True
+NO_SPACES = False
 
 RESTRICT_VECTOR_SPACE = """
 
@@ -29,14 +29,14 @@ USE_ORIGINAL_DIVISIONS = False
 DIVISION_LENGTH = 5000
 """
 
-V_S = ['0','200','500','1000','2000']
+V_S = ['0','200','1000']
 
 h = 1
 for vs in V_S:
-    for q in range(1,11):
-        for i in range(1,11):
+    for q in range(1,9):
+        for i in range(1,9):
             j = i + q
-            if j <= 11:
+            if j <= 9:
                 file_name = str(h) + '_' + str(i) + '_' + str(j) + '_' + vs + '.py'
                 print(file_name)
                 h = h + 1

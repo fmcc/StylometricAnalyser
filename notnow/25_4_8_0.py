@@ -9,8 +9,8 @@ DB_LOGGING = False
 NGRAM_WORDS = False
 
 NGRAM_LENGTHS = {
-        'MIN': 3, 
-        'MAX': 7
+        'MIN': 4, 
+        'MAX': 8
 }
 
 NO_SPACES = False

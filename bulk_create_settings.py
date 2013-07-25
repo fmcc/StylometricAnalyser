@@ -6,7 +6,7 @@ DB_PATH = os.getcwd() + '/database/greek_texts.db'
 LOGGING = True
 DB_LOGGING = False
 
-NGRAM_WORDS = False
+NGRAM_WORDS = True
 
 NGRAM_LENGTHS = {
         'MIN': """
@@ -29,15 +29,15 @@ USE_ORIGINAL_DIVISIONS = False
 DIVISION_LENGTH = 5000
 """
 
-V_S = ['0','200','1000']
+V_S = ['200','1000','0']
 
 h = 1
 for vs in V_S:
-    for q in range(1,9):
-        for i in range(1,9):
+    for q in range(1,5):
+        for i in range(1,5):
             j = i + q
-            if j <= 9:
-                file_name = str(h) + '_' + str(i) + '_' + str(j) + '_' + vs + '.py'
+            if j <= 5:
+                file_name = str(h) + '_' + str(i) + '_' + str(j) + '_' + 'words' + '_' + vs + '.py'
                 print(file_name)
                 h = h + 1
                 with open('./test_settings/' + file_name, 'w') as out:

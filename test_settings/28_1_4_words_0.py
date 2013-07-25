@@ -10,12 +10,12 @@ NGRAM_WORDS = True
 
 NGRAM_LENGTHS = {
         'MIN': 1, 
-        'MAX': 3
+        'MAX': 4
 }
 
 NO_SPACES = False
 
-RESTRICT_VECTOR_SPACE = 500
+RESTRICT_VECTOR_SPACE = 0
 
 # If selected, texts will be divided according to their original top-level divisions (Books etc. 'div1' in Perseus's TEI XML
 USE_ORIGINAL_DIVISIONS = False 

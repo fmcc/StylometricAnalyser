@@ -14,14 +14,16 @@ column_labels = []
 row_labels = []
 data = []
 for sec1 in text_one_sections:
-    column_labels.append(sec1.Author.name + ' - ' + sec1.Text.name + ' - ' + str(sec1.Section.number))
+    column_labels.append(sec1.Author.name[0] + sec1.Text.name[0] + str(sec1.Section.number))
     temp_data_row = []
     for sec2 in text_two_sections:
         row_labels.append(sec2.Author.name + ' - ' + sec2.Text.name + ' - ' + str(sec2.Section.number))
-        temp_data_row.append(compare_texts(session,sec1.Section,sec2.Section))
+        temp_data_row.append((1.0 - compare_texts(session,sec1.Section,sec2.Section)) * 100)
     data.append(temp_data_row)
 np_data = np.array(data)
-
+with open('./test_array','w') as output:
+    output.write(str(data))
+print(column_labels)
 fig, ax = plt.subplots()
 fig.set_size_inches(20,20)
 heatmap = ax.pcolor(np_data, cmap=plt.cm.binary)

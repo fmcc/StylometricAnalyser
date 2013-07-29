@@ -39,3 +39,5 @@ data
 greek_texts.db
 *.swp
 *.swo
+venv
+venv2

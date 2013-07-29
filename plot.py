@@ -1,40 +1,47 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from database import *
-from database.models import *
-from compare import *
-import sys
+from sklearn import manifold
+from output import full_distance_matrix
 
-output_name = sys.argv[1]
+def matrix_heatmap(session, output_path):
+    axes_labels, data_matrix = full_distance_matrix(session)
+    axes_labels = [label[0] + ' '+ label[1] + ' ' + label[2] for label in axes_labels]
+    np_matrix = np.array(data_matrix)
+    fig, ax = plt.subplots()
+    heatmap = ax.pcolor(np_matrix, cmap=plt.cm.summer)
+    ax.invert_yaxis()
+    ax.xaxis.tick_top()
+    ax.set_yticks(np.arange(np_matrix.shape[0])+0.5, minor=False)
+    ax.set_xticks(np.arange(np_matrix.shape[1])+0.5, minor=False)
+    ax.set_xticklabels(axes_labels, minor=False, size='x-small')
+    ax.set_yticklabels(axes_labels, minor=False, size='x-small')
+    plt.xticks(rotation=90)
+    ax.grid(False)
+    plt.savefig(output_path)
 
-session = Session()
-text_one_sections = session.query(Section,Text,Author).join(Text).join(Author)
-text_two_sections = session.query(Section,Text,Author).join(Text).join(Author)
-column_labels = []
-row_labels = []
-data = []
-for sec1 in text_one_sections:
-    column_labels.append(sec1.Author.name[0] + sec1.Text.name[0] + str(sec1.Section.number))
-    temp_data_row = []
-    for sec2 in text_two_sections:
-        row_labels.append(sec2.Author.name + ' - ' + sec2.Text.name + ' - ' + str(sec2.Section.number))
-        temp_data_row.append((1.0 - compare_texts(session,sec1.Section,sec2.Section)) * 100)
-    data.append(temp_data_row)
-np_data = np.array(data)
-with open('./test_array','w') as output:
-    output.write(str(data))
-print(column_labels)
-fig, ax = plt.subplots()
-fig.set_size_inches(20,20)
-heatmap = ax.pcolor(np_data, cmap=plt.cm.binary)
+def mds_plot(session, output_path):
+    axes_labels, data_matrix = full_distance_matrix(session)
+    np_matrix = np.array(data_matrix)
+    mds = manifold.MDS(n_components=2, max_iter=3000, dissimilarity='precomputed')
+    pos = mds.fit(np_matrix).embedding_
+    print(pos)
+    authors = set([label[0] for label in axes_labels])
+    authors_texts = {}
+    for a in authors:
+        authors_texts[a] = {item[1]:[] for item in axes_labels if item[0]==a}
+   
+    for label, p in zip(axes_labels,pos):
+        authors_texts[label[0]][label[1]].append(p)
+    
+    colours = iter(plt.cm.rainbow(np.linspace(0, 1, len(authors))))
+    for author in authors_texts:
+        colour = next(colours)
+        shapes = iter(['o','^','s','p','D'])
+        for text in authors_texts[author]:
+            shape = next(shapes)
+            coords = authors_texts[author][text]
+            x_coord = [item[0] for item in coords]
+            y_coord = [item[1] for item in coords]
+            plt.scatter(x_coord,y_coord,c=colour,marker=shape)
 
-# want a more natural, table-like display
-ax.invert_yaxis()
-ax.xaxis.tick_top()
-ax.set_yticks(np.arange(np_data.shape[0])+0.5, minor=False)
-ax.set_xticks(np.arange(np_data.shape[1])+0.5, minor=False)
-ax.set_xticklabels(row_labels, minor=False, size='x-small')
-ax.set_yticklabels(column_labels, minor=False)
-plt.xticks(rotation=90)
-ax.grid(False)
-plt.savefig(output_name)
+    plt.savefig(output_path)

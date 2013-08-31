@@ -7,9 +7,9 @@ query = sys.argv[1]
 session = Session()
 
 if query == 'author':
-    results = session.query(Text,Author).join(Author)
+    results = session.query(Section,Text,Author).join(Text).join(Author)
     for item in results:
-        print(item.Author.name + " " + item.Text.name)
+        print(item.Author.name + " " + item.Text.name + " " + str(item.Section.number))
 if query == 'text':
     results = session.query(Section, Text).join(Text)
     for item in results:

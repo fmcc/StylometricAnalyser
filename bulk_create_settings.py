@@ -33,11 +33,11 @@ V_S = ['200','1000','0']
 
 h = 1
 for vs in V_S:
-    for q in range(1,5):
-        for i in range(1,5):
+    for q in range(1,4):
+        for i in range(1,4):
             j = i + q
-            if j <= 5:
-                file_name = str(h) + '_' + str(i) + '_' + str(j) + '_' + 'words' + '_' + vs + '.py'
+            if j <= 4:
+                file_name = str(h) + '_' + str(i) + '_' + str(j) + '_' + vs + '_words' + '.py'
                 print(file_name)
                 h = h + 1
                 with open('./test_settings/' + file_name, 'w') as out:

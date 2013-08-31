@@ -27,8 +27,8 @@ def mds_plot(session, output_path):
     pos = [[item[0],item[1]] for item in pos]
     authors = set([label[0] for label in axes_labels])
     authors_texts = {}
-    fig, ax = plt.subplots()
-    fig.set_size_inches(10,10)
+    fig, ax = plt.subplots(1,2)
+    fig.set_size_inches(20,10)
     for a in authors:
         authors_texts[a] = {item[1]:[] for item in axes_labels if item[0]==a}
    
@@ -44,6 +44,6 @@ def mds_plot(session, output_path):
             coords = authors_texts[author][text]
             x_coord = [item[0] for item in coords]
             y_coord = [item[1] for item in coords]
-            ax.scatter(x_coord,y_coord,c=colour,marker=shape, label = author + ' - ' + text)
-    ax.legend(loc=2,fontsize=8,scatterpoints=1)
+            ax[0].scatter(x_coord,y_coord,c=colour,marker=shape, label = author + ' - ' + text)
+    ax[0].legend(loc='upper left',fontsize=8,scatterpoints=1,bbox_to_anchor=(1,1))
     plt.savefig(output_path)

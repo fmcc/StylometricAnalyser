@@ -1,0 +1,94 @@
+@startuml
+Class Author {
+	id      Integer
+	name    Unicode
+
+
+}
+
+Class Comparison {
+	id 		        Integer
+	text_one 	        Integer
+	text_two 	        Integer
+	cosine_similarity   Float
+	version 	        Integer
+
+
+}
+
+Class GlobalNgrams {
+	id 		Integer
+	counts 		PickleType
+
+
+}
+
+Class GlobalVersion {
+	id 		Integer
+	version 	Integer
+
+
+}
+
+Class Section {
+	id 		Integer
+	number 		Integer
+	source_text 	Integer
+
+
+}
+
+Class SectionContent {
+	id 		Integer
+	section 	Integer
+	content 	UnicodeText
+
+
+}
+
+Class SectionNgrams {
+	id 	    Integer
+	section     Integer
+	ngrams 	    PickleType
+
+
+}
+
+Class SectionProfile {
+	id 	    Integer
+	section     Integer
+	profile     PickleType
+	version     Integer
+
+
+}
+
+Class Text {
+	id 	Integer
+	author 	Integer
+	name 	Unicode
+
+
+}
+
+Class VectorSpace {
+	id      Integer
+	space   PickleType
+
+
+}
+
+Comparison <--o Section: text_one
+
+Comparison <--o Section: text_two
+
+Section <--o Text: source_text
+
+SectionContent <--o Section: section
+
+SectionNgrams <--o Section: section
+
+SectionProfile <--o Section: section
+
+Text <--o Author: author
+@enduml
